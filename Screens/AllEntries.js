@@ -1,10 +1,10 @@
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, StyleSheet } from "react-native";
 import React from "react";
 import EntriesList from "../Components/EntriesList";
 
 export default function AllEntries({ navigation }) {
   return (
-    <View>
+    <View style={styles.container}>
       <Button
         title="Go to OverLimitEntries"
         onPress={() =>
@@ -16,7 +16,12 @@ export default function AllEntries({ navigation }) {
         onPress={() => navigation.navigate("Home", { name: "Home" })}
       />
       <EntriesList />
-      <Text>fuck you</Text>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

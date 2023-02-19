@@ -4,6 +4,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  View,
 } from "react-native";
 
 const DATA = [
@@ -27,20 +28,33 @@ const DATA = [
     id: "58294a0f-3da1-471f-bd96-145571e29d72",
     title: "Third Item",
   },
+  {
+    id: "38294a0f-3da1-471f-bd96-145571e29d72",
+    title: "Third Item",
+  },
+  {
+    id: "58394a0f-3da1-471f-bd96-145571e29d72",
+    title: "Third Item",
+  },
+  {
+    id: "58294a0f-3da20-471f-bd96-145571e29d72",
+    title: "Third Item",
+  },
 ];
 export default function EntriesList() {
-  <SafeAreaView style={styles.container}>
-    <Text>Penis</Text>
-    <FlatList
-      data={DATA}
-      renderItem={({ item }) => (
-        <View style={styles.item}>
-          <Text style={styles.title}>{item.title}</Text>
-        </View>
-      )}
-      keyExtractor={(item) => item.id}
-    />
-  </SafeAreaView>;
+  return (
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={DATA}
+        renderItem={({ item }) => (
+          <View style={styles.item}>
+            <Text style={styles.title}>{item.title}</Text>
+          </View>
+        )}
+        keyExtractor={(item) => item.id}
+      />
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
