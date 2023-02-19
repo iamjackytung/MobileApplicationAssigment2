@@ -1,5 +1,6 @@
 import { View, Text, Button } from "react-native";
 import React from "react";
+import EntriesList from "../Components/EntriesList";
 
 export default function AllEntries({ navigation }) {
   return (
@@ -14,6 +15,8 @@ export default function AllEntries({ navigation }) {
         title="Go to Home"
         onPress={() => navigation.navigate("Home", { name: "Home" })}
       />
+      <EntriesList />
+      <Text>fuck you</Text>
     </View>
   );
 }

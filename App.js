@@ -28,7 +28,7 @@ function Home({ navigation }) {
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer styles="stylesxs">
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
