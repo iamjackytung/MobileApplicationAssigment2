@@ -1,30 +1,16 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import { StyleSheet, Image, Button } from "react-native";
+import {
+  NavigationContainer,
+  getFocusedRouteNameFromRoute,
+} from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import AllEntries from "./Screens/AllEntries";
-import OverLimitEntries from "./Screens/OverLimitEntries";
+import Home from "./Components/Home";
+import AddEntry from "./Screens/AddEntry";
+import EditEntry from "./Screens/EditEntry";
 
 const Stack = createNativeStackNavigator();
-
-function Home({ navigation }) {
-  return (
-    <View>
-      <Button
-        title="Go to AllEntries"
-        onPress={() =>
-          navigation.navigate("AllEntries", { name: "AllEntries" })
-        }
-      />
-      <Button
-        title="Go to OverLimitEntries"
-        onPress={() =>
-          navigation.navigate("OverLimitEntries", { name: "OverLimitEntries" })
-        }
-      />
-    </View>
-  );
-}
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
@@ -41,19 +27,32 @@ export default function App() {
         }}
       >
         <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{ headerShown: true }}
-        />
-        <Stack.Screen
           name="AllEntries"
-          component={AllEntries}
-          options={{ headerShown: true }}
+          component={Home}
+          options={({ navigation, route }) => ({
+            headerTitle: getFocusedRouteNameFromRoute(route),
+            headerRight: () => {
+              return (
+                <Button
+                  title="+"
+                  color="white"
+                  onPress={() =>
+                    navigation.navigate("AddEntry", { name: "AddEntry" })
+                  }
+                ></Button>
+              );
+            },
+          })}
         />
         <Stack.Screen
-          name="OverLimitEntries"
-          component={OverLimitEntries}
-          options={{ headerShown: true }}
+          name="AddEntry"
+          component={AddEntry}
+          // options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="EditEntry"
+          component={EditEntry}
+          // options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
