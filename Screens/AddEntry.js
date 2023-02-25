@@ -1,22 +1,26 @@
 import { Text, TextInput, View, StyleSheet, Button } from "react-native";
+import { useState } from "react";
 
 export default function AddEntry() {
+  const [calories, updateCalories] = useState("");
+  const [description, updateDescription] = useState("");
+
   return (
     <View style={styles.card}>
       <View style={styles.flexRow}>
         <Text style={styles.inputTitle}>Calories</Text>
         <TextInput
           style={styles.input}
-          // onChangeText={emailUpdateFunction}
-          // value={emailText}
+          onChangeText={updateCalories}
+          value={calories}
         />
       </View>
       <View style={styles.flexRow}>
         <Text style={styles.inputTitle}>description</Text>
         <TextInput
           style={styles.input}
-          // onChangeText={phoneUpdateFunction}
-          // value={phoneText}
+          onChangeText={updateDescription}
+          value={description}
         />
       </View>
       {/* <Text>{validPhoneText}</Text> */}
@@ -31,7 +35,14 @@ export default function AddEntry() {
           color="red"
         />
 
-        <Button title="Submit" />
+        <Button
+          title="Submit"
+          onPress={() => {
+            return console.log(
+              description + " is descption and" + calories + " is calories"
+            );
+          }}
+        />
       </View>
     </View>
   );
