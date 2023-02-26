@@ -44,16 +44,8 @@ export default function App() {
             },
           })}
         />
-        <Stack.Screen
-          name="AddEntry"
-          component={AddEntry}
-          // options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="EditEntry"
-          component={EditEntry}
-          // options={{ headerShown: false }}
-        />
+        <Stack.Screen name="AddEntry" component={AddEntry} />
+        <Stack.Screen name="EditEntry" component={EditEntry} />
       </Stack.Navigator>
     </NavigationContainer>
     // <View style={styles.container}>

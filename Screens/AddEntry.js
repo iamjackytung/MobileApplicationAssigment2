@@ -1,4 +1,4 @@
-import { Text, TextInput, View, StyleSheet, Button } from "react-native";
+import { Text, TextInput, View, StyleSheet, Button, Alert } from "react-native";
 import { useState } from "react";
 import { writeToDB } from "../Firebase/firestoreHelper";
 
@@ -6,6 +6,32 @@ export default function AddEntry({ navigation }) {
   const [calories, updateCalories] = useState("");
   const [description, updateDescription] = useState("");
   let reviewed = true;
+
+  const inputAlert = () => {
+    Alert.alert(
+      "Invalid Input",
+      "Please check your input values",
+      [{ text: "OK" }],
+      { cancelable: false }
+    );
+  };
+
+  const onSubmit = () => {
+    if (
+      !String(calories).match(/^(0|[1-9][0-9]*)$/) ||
+      description.trim() == ""
+    )
+      return inputAlert;
+    if (calories > 500) reviewed = false;
+    navigation.navigate("AllEntries", {
+      name: "AllEntries",
+    });
+    return writeToDB({
+      entry: description,
+      calories: calories,
+      reviewed: reviewed,
+    });
+  };
 
   return (
     <View style={styles.card}>
@@ -25,32 +51,17 @@ export default function AddEntry({ navigation }) {
           value={description}
         />
       </View>
-      {/* <Text>{validPhoneText}</Text> */}
       <View style={styles.flexRow}>
         <Button
           title="Reset"
-          // onPress={() => {
-          //   resetFunction();
-          //   setValidEmailText("");
-          //   setValidPhoneText("");
-          // }}
+          onPress={() => {
+            updateCalories("");
+            updateDescription("");
+          }}
           color="red"
         />
 
-        <Button
-          title="Submit"
-          onPress={() => {
-            if (calories > 500) reviewed = false;
-            navigation.navigate("AllEntries", {
-              name: "AllEntries",
-            });
-            return writeToDB({
-              entry: description,
-              calories: calories,
-              reviewed: reviewed,
-            });
-          }}
-        />
+        <Button title="Submit" onPress={onSubmit()} />
       </View>
     </View>
   );

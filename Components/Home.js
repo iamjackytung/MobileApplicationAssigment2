@@ -11,13 +11,11 @@ export default function Home({ navigation }) {
         name="AllEntries"
         component={AllEntries}
         options={{ headerShown: false }}
-        // initialParams={entries}
       />
       <Tab.Screen
         name="OverLimitEntries"
         component={OverLimitEntries}
         options={{ headerShown: false }}
-        // initialParams={entries}
       />
     </Tab.Navigator>
   );
