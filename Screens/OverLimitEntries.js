@@ -7,7 +7,7 @@ export default function OverLimitEntries({ navigation, route }) {
   // console.log("Over");
   return (
     <View style={styles.container}>
-      <EntriesList all={false} />
+      <EntriesList navigation={navigation} all={true} />
     </View>
   );
 }

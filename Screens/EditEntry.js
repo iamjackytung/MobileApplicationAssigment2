@@ -2,20 +2,61 @@ import { Text, Modal, View, StyleSheet, Button } from "react-native";
 import { deleteFromDB } from "../Firebase/firestoreHelper";
 import { useState } from "react";
 import { Pressable } from "react-native";
+import { Alert } from "react-native";
 
-export default function EditEntry({ route }) {
+export default function EditEntry({ navigation, route }) {
   console.log(route.params.id);
   // const [modalVisible, setModalVisible] = useState(visible);
+
+  const reviewAndNavigate = () => {
+    // still missing update data
+    navigation.navigate("AllEntries", {
+      name: "AllEntries",
+    });
+  };
+
+  const deleteAndNavigate = () => {
+    // deleteFromDB(route.params.id);
+    navigation.navigate("AllEntries", {
+      name: "AllEntries",
+    });
+  };
+
+  const reviewedAlert = () => {
+    Alert.alert(
+      "Are you sure you want to mark this as reviewed?",
+      "My Alert Msg",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => reviewAndNavigate() },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  const deleteAlert = () => {
+    Alert.alert(
+      "Are you sure you want to delete this?",
+      "My Alert Msg",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => deleteAndNavigate() },
+      ],
+      { cancelable: false }
+    );
+  };
+
   return (
     <View style={styles.card}>
       <Text style={styles.inputTitle}>You have entered:</Text>
-      <Button title="Delete" onPress={() => deleteFromDB(route.params.id)} />
-      <Button
-      // title="Reviewed"
-      // onPress={() =>
-      //   navigation.navigate("AllEntries", { name: "AllEntries" })
-      // }
-      />
+      <Button title="Delete" onPress={deleteAlert} />
+      <Button title="Reviewed" onPress={reviewedAlert} />
     </View>
   );
 }
