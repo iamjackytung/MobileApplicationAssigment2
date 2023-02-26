@@ -8,58 +8,48 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useState, useEffect } from "react";
+import { firestore } from "../Firebase/firebase-setup";
+import { onSnapshot, collection } from "@firebase/firestore";
+import EditEntry from "../Screens/EditEntry";
 
-const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    calories: 200,
-    title: "First Item",
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    calories: 700,
-    title: "Second Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    calories: 100,
-    title: "Third Item",
-  },
-  {
-    id: "68694a0f-3da1-471f-bd96-145571e29d72",
-    calories: 600,
-    title: "Third Item",
-  },
-  {
-    id: "58294a0f-3da1-471f-bd96-145571e29d72",
-    calories: 800,
-    title: "Third Item",
-  },
-  {
-    id: "38294a0f-3da1-471f-bd96-145571e29d72",
-    calories: 100,
-    title: "Third Item",
-  },
-  {
-    id: "58394a0f-3da1-471f-bd96-145571e29d72",
-    calories: 400,
-    title: "Third Item",
-  },
-  {
-    id: "58294a0f-3da20-471f-bd96-145571e29d72",
-    calories: 1000,
-    title: "Third Item",
-  },
-];
-export default function EntriesList({ navigation }) {
+export default function EntriesList({ navigation, all }) {
+  const [entries, setEntries] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(firestore, "entries"),
+      (querySnapshot) => {
+        setEntries([]);
+        if (querySnapshot.empty) setEntries([]);
+        else {
+          let docs = [];
+          // we want to update entries array with the data THAT we get in this array
+          querySnapshot.docs.forEach((snap) => {
+            // console.log(snap.id);
+            if (all) return docs.push({ ...snap.data(), id: snap.id });
+            else if (!all && !snap.data().reviewed)
+              return docs.push({ ...snap.data(), id: snap.id });
+          });
+          console.log(docs);
+          setEntries(docs);
+        }
+      }
+    );
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   let itemInfo;
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={DATA}
+        data={entries}
         renderItem={({ item }) => {
-          if (item.calories > 500) itemInfo = <Text>⚠️</Text>;
-          else itemInfo = "";
+          if (item.reviewed == true) itemInfo = "";
+          else itemInfo = <Text>⚠️</Text>;
 
           return (
             <TouchableOpacity
@@ -71,7 +61,7 @@ export default function EntriesList({ navigation }) {
                 })
               }
             >
-              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.title}>{item.entry}</Text>
               <View style={styles.flexError}>
                 {itemInfo}
                 <Text style={styles.categoryBox}>{item.calories}</Text>

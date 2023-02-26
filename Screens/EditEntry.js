@@ -1,21 +1,20 @@
-import { Text, View, StyleSheet, Button } from "react-native";
+import { Text, Modal, View, StyleSheet, Button } from "react-native";
+import { deleteFromDB } from "../Firebase/firestoreHelper";
+import { useState } from "react";
+import { Pressable } from "react-native";
 
-export default function EditEntry({ navigation, route }) {
+export default function EditEntry({ route }) {
+  console.log(route.params.id);
+  // const [modalVisible, setModalVisible] = useState(visible);
   return (
     <View style={styles.card}>
       <Text style={styles.inputTitle}>You have entered:</Text>
-      <Text>{route.params.id}</Text>
+      <Button title="Delete" onPress={() => deleteFromDB(route.params.id)} />
       <Button
-        title="Delete"
-        onPress={() =>
-          navigation.navigate("AllEntries", { name: "AllEntries" })
-        }
-      />
-      <Button
-        title="Update"
-        onPress={() =>
-          navigation.navigate("AllEntries", { name: "AllEntries" })
-        }
+      // title="Reviewed"
+      // onPress={() =>
+      //   navigation.navigate("AllEntries", { name: "AllEntries" })
+      // }
       />
     </View>
   );

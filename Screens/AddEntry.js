@@ -1,9 +1,11 @@
 import { Text, TextInput, View, StyleSheet, Button } from "react-native";
 import { useState } from "react";
+import { writeToDB } from "../Firebase/firestoreHelper";
 
 export default function AddEntry() {
   const [calories, updateCalories] = useState("");
   const [description, updateDescription] = useState("");
+  let reviewed = true;
 
   return (
     <View style={styles.card}>
@@ -38,9 +40,12 @@ export default function AddEntry() {
         <Button
           title="Submit"
           onPress={() => {
-            return console.log(
-              description + " is descption and" + calories + " is calories"
-            );
+            if (calories > 500) reviewed = false;
+            return writeToDB({
+              entry: description,
+              calories: calories,
+              reviewed: reviewed,
+            });
           }}
         />
       </View>
