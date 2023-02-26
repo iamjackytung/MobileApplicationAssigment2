@@ -2,7 +2,7 @@ import { Text, TextInput, View, StyleSheet, Button } from "react-native";
 import { useState } from "react";
 import { writeToDB } from "../Firebase/firestoreHelper";
 
-export default function AddEntry() {
+export default function AddEntry({ navigation }) {
   const [calories, updateCalories] = useState("");
   const [description, updateDescription] = useState("");
   let reviewed = true;
@@ -41,6 +41,9 @@ export default function AddEntry() {
           title="Submit"
           onPress={() => {
             if (calories > 500) reviewed = false;
+            navigation.navigate("AllEntries", {
+              name: "AllEntries",
+            });
             return writeToDB({
               entry: description,
               calories: calories,

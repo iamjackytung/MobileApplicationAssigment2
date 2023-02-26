@@ -27,7 +27,7 @@ export async function deleteFromDB(id) {
 export async function updateToDB(id) {
   try {
     const docRef = await updateDoc(doc(firestore, "entries", id), {
-      reviewed: true,
+      reviewed: false,
     });
     console.log(docRef.id);
   } catch (err) {

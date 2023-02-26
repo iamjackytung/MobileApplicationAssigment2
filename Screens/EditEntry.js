@@ -17,7 +17,7 @@ export default function EditEntry({ navigation, route }) {
   };
 
   const deleteAndNavigate = () => {
-    // deleteFromDB(route.params.id);
+    deleteFromDB(route.params.id);
     navigation.navigate("AllEntries", {
       name: "AllEntries",
     });
