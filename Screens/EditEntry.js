@@ -1,15 +1,16 @@
 import { Text, Modal, View, StyleSheet, Button } from "react-native";
-import { deleteFromDB } from "../Firebase/firestoreHelper";
+import { deleteFromDB, updateToDB } from "../Firebase/firestoreHelper";
 import { useState } from "react";
 import { Pressable } from "react-native";
 import { Alert } from "react-native";
+import { updateDoc } from "@firebase/firestore";
 
 export default function EditEntry({ navigation, route }) {
   console.log(route.params.id);
   // const [modalVisible, setModalVisible] = useState(visible);
 
   const reviewAndNavigate = () => {
-    // still missing update data
+    updateToDB(route.params.id);
     navigation.navigate("AllEntries", {
       name: "AllEntries",
     });
