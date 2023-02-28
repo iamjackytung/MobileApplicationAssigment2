@@ -1,12 +1,12 @@
-import { Text, Modal, View, StyleSheet, Button } from "react-native";
+import { Text, View, StyleSheet, Button } from "react-native";
 import { deleteFromDB, updateToDB } from "../Firebase/firestoreHelper";
-import { useState } from "react";
-import { Pressable } from "react-native";
 import { Alert } from "react-native";
-import { updateDoc } from "@firebase/firestore";
+import { FontAwesome } from "@expo/vector-icons";
+import PressableButton from "../Components/PressableButton";
+import Utilities from "../Utilities";
 
 export default function EditEntry({ navigation, route }) {
-  console.log(route.params.id);
+  console.log(route.params);
   // const [modalVisible, setModalVisible] = useState(visible);
 
   const reviewAndNavigate = () => {
@@ -54,25 +54,50 @@ export default function EditEntry({ navigation, route }) {
   };
 
   return (
-    <View style={styles.card}>
-      <Text style={styles.inputTitle}>You have entered:</Text>
-      <Button title="Delete" onPress={deleteAlert} />
-      <Button title="Reviewed" onPress={reviewedAlert} />
+    <View style={styles.container}>
+      <View style={styles.card}>
+        <Text style={styles.inputTitle}>Calories: {route.params.id}</Text>
+        <View style={styles.buttons}>
+          <PressableButton
+            style={{
+              backgroundColor: Utilities.primaryColor,
+              width: 30,
+              height: 30,
+              alignSelf: "center",
+            }}
+            title="Reviewed"
+            pressHandler={deleteAlert}
+          >
+            <FontAwesome name="trash-o" size={24} color={Utilities.textColor} />
+          </PressableButton>
+          <PressableButton
+            style={{
+              backgroundColor: Utilities.primaryColor,
+              width: 30,
+              height: 30,
+              alignSelf: "center",
+            }}
+            title="Reviewed"
+            pressHandler={reviewedAlert}
+          >
+            <FontAwesome name="check-o" size={24} color={Utilities.textColor} />
+          </PressableButton>
+        </View>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   buttons: {
-    flexDirection: "column",
-    width: 115,
+    flexDirection: "row",
     alignSelf: "center",
   },
   card: {
     width: "80%",
     marginBottom: 10,
     padding: 10,
-    backgroundColor: "lightgrey",
+    backgroundColor: Utilities.tertiaryColor,
     alignSelf: "center",
     marginTop: 40,
     borderRadius: 10,
@@ -85,5 +110,9 @@ const styles = StyleSheet.create({
   inputTitle: {
     marginTop: 10,
     fontSize: 20,
+  },
+  container: {
+    backgroundColor: Utilities.secondaryColor,
+    flex: 1,
   },
 });

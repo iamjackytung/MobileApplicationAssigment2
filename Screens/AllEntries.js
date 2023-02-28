@@ -5,6 +5,7 @@ import EntriesList from "../Components/EntriesList";
 import { useState, useEffect } from "react";
 import { firestore } from "../Firebase/firebase-setup";
 import EditEntry from "./EditEntry";
+import Utilities from "../Utilities";
 
 export default function AllEntries({ navigation }) {
   return (

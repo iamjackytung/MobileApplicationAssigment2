@@ -1,7 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AllEntries from "../Screens/AllEntries";
 import OverLimitEntries from "../Screens/OverLimitEntries";
-import EditEntry from "../Screens/EditEntry";
 const Tab = createBottomTabNavigator();
 
 export default function Home({ navigation }) {

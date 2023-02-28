@@ -11,7 +11,7 @@ import {
 import { useState, useEffect } from "react";
 import { firestore } from "../Firebase/firebase-setup";
 import { onSnapshot, collection } from "@firebase/firestore";
-import EditEntry from "../Screens/EditEntry";
+import Utilities from "../Utilities";
 
 export default function EntriesList({ navigation, all }) {
   const [entries, setEntries] = useState([]);
@@ -80,9 +80,10 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
     height: 500,
+    backgroundColor: Utilities.secondaryColor,
   },
   item: {
-    backgroundColor: "#f9c2ff",
+    backgroundColor: Utilities.primaryColor,
     padding: 10,
     marginVertical: 8,
     marginHorizontal: 16,
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
     // fontSize: 32,
   },
   categoryBox: {
-    backgroundColor: "white",
+    backgroundColor: Utilities.textColor,
     padding: 10,
     marginVertical: 8,
     marginHorizontal: 16,

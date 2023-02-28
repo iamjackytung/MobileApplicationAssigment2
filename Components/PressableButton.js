@@ -1,5 +1,6 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
+import Utilities from "../Utilities";
 export default function PressableButton({ style, pressHandler, children }) {
   return (
     <Pressable
@@ -12,11 +13,19 @@ export default function PressableButton({ style, pressHandler, children }) {
       }}
       onPress={pressHandler}
     >
-      <View>{children}</View>
+      <View style={styles.view}>{children}</View>
     </Pressable>
   );
 }
 const styles = StyleSheet.create({
-  buttonStyle: { justifyContent: "center", backgroundColor: "green" },
-  pressedStyle: { backgroundColor: "red", opacity: 0.5 },
+  buttonStyle: {
+    backgroundColor: "green",
+    justifyContent: "center",
+    borderRadius: "5",
+  },
+  pressedStyle: {
+    backgroundColor: "white",
+    opacity: 0.5,
+  },
+  view: { alignSelf: "center" },
 });

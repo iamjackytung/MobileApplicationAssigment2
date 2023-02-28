@@ -1,6 +1,9 @@
 import { Text, TextInput, View, StyleSheet, Button, Alert } from "react-native";
 import { useState } from "react";
 import { writeToDB } from "../Firebase/firestoreHelper";
+import Utilities from "../Utilities";
+import PressableButton from "../Components/PressableButton";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function AddEntry({ navigation }) {
   const [calories, updateCalories] = useState("");
@@ -33,35 +36,59 @@ export default function AddEntry({ navigation }) {
     });
   };
 
-  return (
-    <View style={styles.card}>
-      <View style={styles.flexRow}>
-        <Text style={styles.inputTitle}>Calories</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={updateCalories}
-          value={calories}
-        />
-      </View>
-      <View style={styles.flexRow}>
-        <Text style={styles.inputTitle}>description</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={updateDescription}
-          value={description}
-        />
-      </View>
-      <View style={styles.flexRow}>
-        <Button
-          title="Reset"
-          onPress={() => {
-            updateCalories("");
-            updateDescription("");
-          }}
-          color="red"
-        />
+  const onReset = () => {
+    updateCalories("");
+    updateDescription("");
+  };
 
-        <Button title="Submit" onPress={onSubmit()} />
+  return (
+    <View style={styles.container}>
+      <View style={styles.card}>
+        <View style={styles.flexRow}>
+          <View style={styles.flexColumn}>
+            <Text style={styles.inputTitle}>Calories</Text>
+            <Text></Text>
+            <Text style={styles.inputTitle}>description</Text>
+          </View>
+          <View style={styles.flexColumn}>
+            <TextInput
+              style={styles.input}
+              onChangeText={updateCalories}
+              value={calories}
+            />
+            <Text></Text>
+            <TextInput
+              style={styles.descriptionInput}
+              onChangeText={updateDescription}
+              value={description}
+            />
+          </View>
+        </View>
+        <View style={styles.flexRow}>
+          <PressableButton
+            style={{
+              backgroundColor: Utilities.primaryColor,
+              width: 100,
+              height: 30,
+              alignSelf: "center",
+              marginHorizontal: 30,
+            }}
+            pressHandler={onReset}
+          >
+            <Text style={styles.button}>Reset</Text>
+          </PressableButton>
+          <PressableButton
+            style={{
+              backgroundColor: Utilities.primaryColor,
+              width: 100,
+              height: 30,
+              alignSelf: "center",
+            }}
+            pressHandler={onSubmit}
+          >
+            <Text style={styles.button}>Submit</Text>
+          </PressableButton>
+        </View>
       </View>
     </View>
   );
@@ -72,7 +99,6 @@ const styles = StyleSheet.create({
     width: "80%",
     marginBottom: 10,
     padding: 10,
-    backgroundColor: "lightgrey",
     alignSelf: "center",
     marginTop: 40,
     borderRadius: 10,
@@ -83,15 +109,31 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   inputTitle: {
-    marginTop: 10,
     fontSize: 20,
+    color: Utilities.primaryColor,
+  },
+  descriptionInput: {
+    height: 100,
+    width: 180,
+    marginHorizontal: 10,
+    backgroundColor: Utilities.tertiaryColor,
   },
   input: {
     height: 30,
-    width: "50%",
-    borderWidth: 1,
+    width: 180,
+    marginHorizontal: 10,
+    backgroundColor: Utilities.tertiaryColor,
   },
   flexRow: {
     flexDirection: "row",
+    marginBottom: 20,
   },
+  flexColumn: {
+    flexDirection: "column",
+  },
+  container: {
+    backgroundColor: Utilities.secondaryColor,
+    flex: 1,
+  },
+  button: { color: "white" },
 });

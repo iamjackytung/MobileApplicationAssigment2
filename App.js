@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./Components/Home";
 import AddEntry from "./Screens/AddEntry";
 import EditEntry from "./Screens/EditEntry";
+import Utilities from "./Utilities";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -18,7 +19,7 @@ export default function App() {
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: "purple",
+            backgroundColor: Utilities.primaryColor,
           },
           headerTintColor: "#eee",
           headerTitleStyle: {
@@ -48,17 +49,13 @@ export default function App() {
         <Stack.Screen name="EditEntry" component={EditEntry} />
       </Stack.Navigator>
     </NavigationContainer>
-    // <View style={styles.container}>
-    //   <Text>Open up App.js to start working on your app!</Text>
-    //   <StatusBar style="auto" />
-    // </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: Utilities.primaryColor,
     alignItems: "center",
     justifyContent: "center",
   },
