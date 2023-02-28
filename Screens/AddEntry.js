@@ -19,11 +19,7 @@ export default function AddEntry({ navigation }) {
   };
 
   const onSubmit = () => {
-    if (
-      !String(calories).match(/^(0|[1-9][0-9]*)$/) ||
-      description.trim() == ""
-    )
-      inputAlert();
+    if (!/^\d+$/.test(calories) || description.trim() == "") inputAlert();
     else {
       if (calories > 500) reviewed = false;
       navigation.navigate("AllEntries", {

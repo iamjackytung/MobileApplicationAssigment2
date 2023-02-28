@@ -1,4 +1,4 @@
-import { StyleSheet, Image, Button } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import {
   NavigationContainer,
   getFocusedRouteNameFromRoute,
@@ -10,27 +10,32 @@ import AddEntry from "./Screens/AddEntry";
 import EditEntry from "./Screens/EditEntry";
 import Utilities from "./Utilities";
 import PressableButton from "./Components/PressableButton";
-import { Text } from "react-native";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const addButton = () => {
-  navigation.navigate("AddEntry", { name: "AddEntry" });
-};
+const App = () => {
+  const renderAddEntryButton = ({ navigation }) => (
+    <PressableButton
+      pressHandler={() => navigation.navigate("AddEntry", { name: "AddEntry" })}
+      style={styles.PressableButton}
+    >
+      <Text style={styles.addButton}> + </Text>
+    </PressableButton>
+  );
 
-export default function App() {
   return (
-    <NavigationContainer style={styles.container}>
+    <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
             backgroundColor: Utilities.primaryColor,
           },
-          headerTintColor: "#eee",
+          headerTintColor: Utilities.textColor,
           headerTitleStyle: {
             fontSize: 20,
           },
+          headerTitleAlign: "center",
         }}
       >
         <Stack.Screen
@@ -39,18 +44,7 @@ export default function App() {
           options={({ navigation, route }) => ({
             title: "All Entries",
             headerTitle: getFocusedRouteNameFromRoute(route),
-            headerTitleAlign: "center",
-            headerRight: () => {
-              return (
-                <PressableButton
-                  pressHandler={() =>
-                    navigation.navigate("AddEntry", { name: "AddEntry" })
-                  }
-                >
-                  <Text style={styles.PressableButton}> + </Text>
-                </PressableButton>
-              );
-            },
+            headerRight: () => renderAddEntryButton({ navigation }),
           })}
         />
         <Stack.Screen name="AddEntry" component={AddEntry} />
@@ -58,17 +52,17 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Utilities.primaryColor,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   PressableButton: {
     color: Utilities.textColor,
     fontSize: 20,
   },
+  addButton: {
+    color: Utilities.textColor,
+    fontSize: 25,
+  },
 });
+
+export default App;

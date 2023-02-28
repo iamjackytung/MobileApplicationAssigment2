@@ -1,16 +1,7 @@
-import {
-  FlatList,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useState, useEffect } from "react";
+import { collection, onSnapshot } from "@firebase/firestore";
 import { firestore } from "../Firebase/firebase-setup";
-import { onSnapshot, collection } from "@firebase/firestore";
 import Utilities from "../Utilities";
 import PressableButton from "./PressableButton";
 
@@ -21,68 +12,56 @@ export default function EntriesList({ navigation, all }) {
     const unsubscribe = onSnapshot(
       collection(firestore, "entries"),
       (querySnapshot) => {
-        setEntries([]);
-        if (querySnapshot.empty) setEntries([]);
-        else {
-          let docs = [];
-          // we want to update entries array with the data THAT we get in this array
-          querySnapshot.docs.forEach((snap) => {
-            if (all) return docs.push({ ...snap.data(), id: snap.id });
-            else if (!all && !snap.data().reviewed)
-              return docs.push({ ...snap.data(), id: snap.id });
-          });
+        if (querySnapshot.empty) {
+          setEntries([]);
+        } else {
+          const docs = querySnapshot.docs
+            .map((snap) => ({
+              ...snap.data(),
+              id: snap.id,
+            }))
+            .filter((doc) => all || !doc.reviewed);
           setEntries(docs);
         }
       }
     );
-    return () => {
-      unsubscribe();
-    };
+    return () => unsubscribe();
   }, []);
 
-  let itemInfo;
+  const renderItem = ({ item }) => {
+    const itemInfo = item.reviewed ? null : <Text>⚠️</Text>;
+    return (
+      <PressableButton
+        style={styles.pressableButton}
+        title="Reviewed"
+        pressHandler={() =>
+          navigation.navigate("EditEntry", {
+            name: "EditEntry",
+            id: item.id,
+            calories: item.calories,
+            description: item.entry,
+          })
+        }
+      >
+        <View style={styles.flexRow}>
+          <Text style={styles.title}>{item.entry}</Text>
+          <View style={styles.flexError}>
+            {itemInfo}
+            <View style={styles.roundBorders}>
+              <Text>{item.calories}</Text>
+            </View>
+          </View>
+        </View>
+      </PressableButton>
+    );
+  };
 
   return (
     <View style={styles.container}>
       <FlatList
         data={entries}
-        renderItem={({ item }) => {
-          if (item.reviewed == true) itemInfo = "";
-          else itemInfo = <Text>⚠️</Text>;
-          return (
-            <PressableButton
-              style={{
-                alignSelf: "center",
-                backgroundColor: Utilities.primaryColor,
-                padding: 10,
-                marginVertical: 8,
-                marginHorizontal: 16,
-                flexDirection: "row",
-                justifyContent: "space-between",
-                width: "95%",
-              }}
-              title="Reviewed"
-              pressHandler={() =>
-                navigation.navigate("EditEntry", {
-                  name: "EditEntry",
-                  id: item.id,
-                  calories: item.calories,
-                  description: item.entry,
-                })
-              }
-            >
-              <View style={styles.flexRow}>
-                <Text style={styles.title}>{item.entry}</Text>
-                <View style={styles.flexError}>
-                  {itemInfo}
-                  <View style={styles.roundBorders}>
-                    <Text>{item.calories}</Text>
-                  </View>
-                </View>
-              </View>
-            </PressableButton>
-          );
-        }}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
       />
     </View>
   );
@@ -116,5 +95,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: 340,
+  },
+  pressableButton: {
+    alignSelf: "center",
+    backgroundColor: Utilities.primaryColor,
+    padding: 10,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "95%",
   },
 });
