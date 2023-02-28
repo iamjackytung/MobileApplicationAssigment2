@@ -91,7 +91,7 @@ export default function EntriesList({ navigation, all }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
+    paddingTop: 15,
     height: 500,
     backgroundColor: Utilities.secondaryColor,
     width: "100%",

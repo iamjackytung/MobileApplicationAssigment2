@@ -3,7 +3,6 @@ import { useState } from "react";
 import { writeToDB } from "../Firebase/firestoreHelper";
 import Utilities from "../Utilities";
 import PressableButton from "../Components/PressableButton";
-import { FontAwesome } from "@expo/vector-icons";
 
 export default function AddEntry({ navigation }) {
   const [calories, updateCalories] = useState("");
@@ -99,16 +98,14 @@ export default function AddEntry({ navigation }) {
 const styles = StyleSheet.create({
   card: {
     width: "80%",
-    marginBottom: 10,
+    margin: 10,
     padding: 10,
     alignSelf: "center",
-    marginTop: 40,
     borderRadius: 10,
     elevation: 5,
     shadow: "black",
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
-    shadowRadius: 3,
   },
   inputTitle: {
     fontSize: 20,
@@ -128,7 +125,8 @@ const styles = StyleSheet.create({
   },
   flexRow: {
     flexDirection: "row",
-    marginBottom: 20,
+    marginVertical: 20,
+    marginHorizontal: 10,
   },
   flexColumn: {
     flexDirection: "column",

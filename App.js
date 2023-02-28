@@ -9,9 +9,15 @@ import Home from "./Components/Home";
 import AddEntry from "./Screens/AddEntry";
 import EditEntry from "./Screens/EditEntry";
 import Utilities from "./Utilities";
+import PressableButton from "./Components/PressableButton";
+import { Text } from "react-native";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const addButton = () => {
+  navigation.navigate("AddEntry", { name: "AddEntry" });
+};
 
 export default function App() {
   return (
@@ -28,19 +34,21 @@ export default function App() {
         }}
       >
         <Stack.Screen
-          name="AllEntries"
+          name="Home"
           component={Home}
           options={({ navigation, route }) => ({
+            title: "All Entries",
             headerTitle: getFocusedRouteNameFromRoute(route),
+            headerTitleAlign: "center",
             headerRight: () => {
               return (
-                <Button
-                  title="+"
-                  color="white"
-                  onPress={() =>
+                <PressableButton
+                  pressHandler={() =>
                     navigation.navigate("AddEntry", { name: "AddEntry" })
                   }
-                ></Button>
+                >
+                  <Text style={styles.PressableButton}> + </Text>
+                </PressableButton>
               );
             },
           })}
@@ -58,5 +66,9 @@ const styles = StyleSheet.create({
     backgroundColor: Utilities.primaryColor,
     alignItems: "center",
     justifyContent: "center",
+  },
+  PressableButton: {
+    color: Utilities.textColor,
+    fontSize: 20,
   },
 });

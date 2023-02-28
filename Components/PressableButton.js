@@ -19,9 +19,8 @@ export default function PressableButton({ style, pressHandler, children }) {
 }
 const styles = StyleSheet.create({
   buttonStyle: {
-    backgroundColor: "green",
     justifyContent: "center",
-    borderRadius: "5",
+    borderRadius: 5,
   },
   pressedStyle: {
     backgroundColor: "white",
