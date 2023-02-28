@@ -6,9 +6,6 @@ import PressableButton from "../Components/PressableButton";
 import Utilities from "../Utilities";
 
 export default function EditEntry({ navigation, route }) {
-  console.log(route.params);
-  // const [modalVisible, setModalVisible] = useState(visible);
-
   const reviewAndNavigate = () => {
     updateToDB(route.params.id);
     navigation.navigate("AllEntries", {
@@ -56,31 +53,26 @@ export default function EditEntry({ navigation, route }) {
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        <Text style={styles.inputTitle}>Calories: {route.params.id}</Text>
+        <Text style={styles.inputTitle}>Calories: {route.params.calories}</Text>
+        <Text style={styles.inputTitle}>
+          Description: {route.params.description}
+        </Text>
         <View style={styles.buttons}>
           <PressableButton
-            style={{
-              backgroundColor: Utilities.primaryColor,
-              width: 30,
-              height: 30,
-              alignSelf: "center",
-            }}
+            style={styles.pressableButtons}
             title="Reviewed"
             pressHandler={deleteAlert}
           >
             <FontAwesome name="trash-o" size={24} color={Utilities.textColor} />
           </PressableButton>
+          <Text> </Text>
+          <Text> </Text>
           <PressableButton
-            style={{
-              backgroundColor: Utilities.primaryColor,
-              width: 30,
-              height: 30,
-              alignSelf: "center",
-            }}
+            style={styles.pressableButtons}
             title="Reviewed"
             pressHandler={reviewedAlert}
           >
-            <FontAwesome name="check-o" size={24} color={Utilities.textColor} />
+            <FontAwesome name="check" size={20} color={Utilities.textColor} />
           </PressableButton>
         </View>
       </View>
@@ -91,6 +83,13 @@ export default function EditEntry({ navigation, route }) {
 const styles = StyleSheet.create({
   buttons: {
     flexDirection: "row",
+    alignSelf: "center",
+    marginTop: 20,
+  },
+  pressableButtons: {
+    backgroundColor: Utilities.primaryColor,
+    width: 30,
+    height: 30,
     alignSelf: "center",
   },
   card: {

@@ -3,4 +3,5 @@ export default {
   secondaryColor: `rgb(${138}, ${131}, ${195})`,
   tertiaryColor: `rgb(${163}, ${157}, ${222})`,
   textColor: "white",
+  tintColor: "yellow",
 };

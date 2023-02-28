@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import { firestore } from "../Firebase/firebase-setup";
 import { onSnapshot, collection } from "@firebase/firestore";
 import Utilities from "../Utilities";
+import PressableButton from "./PressableButton";
 
 export default function EntriesList({ navigation, all }) {
   const [entries, setEntries] = useState([]);
@@ -26,12 +27,10 @@ export default function EntriesList({ navigation, all }) {
           let docs = [];
           // we want to update entries array with the data THAT we get in this array
           querySnapshot.docs.forEach((snap) => {
-            // console.log(snap.id);
             if (all) return docs.push({ ...snap.data(), id: snap.id });
             else if (!all && !snap.data().reviewed)
               return docs.push({ ...snap.data(), id: snap.id });
           });
-          console.log(docs);
           setEntries(docs);
         }
       }
@@ -44,34 +43,48 @@ export default function EntriesList({ navigation, all }) {
   let itemInfo;
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <FlatList
         data={entries}
         renderItem={({ item }) => {
           if (item.reviewed == true) itemInfo = "";
           else itemInfo = <Text>⚠️</Text>;
-
           return (
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() =>
+            <PressableButton
+              style={{
+                alignSelf: "center",
+                backgroundColor: Utilities.primaryColor,
+                padding: 10,
+                marginVertical: 8,
+                marginHorizontal: 16,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: "95%",
+              }}
+              title="Reviewed"
+              pressHandler={() =>
                 navigation.navigate("EditEntry", {
                   name: "EditEntry",
                   id: item.id,
+                  calories: item.calories,
+                  description: item.entry,
                 })
               }
             >
-              <Text style={styles.title}>{item.entry}</Text>
-              <View style={styles.flexError}>
-                {itemInfo}
-                <Text style={styles.categoryBox}>{item.calories}</Text>
+              <View style={styles.flexRow}>
+                <Text style={styles.title}>{item.entry}</Text>
+                <View style={styles.flexError}>
+                  {itemInfo}
+                  <View style={styles.roundBorders}>
+                    <Text>{item.calories}</Text>
+                  </View>
+                </View>
               </View>
-            </TouchableOpacity>
+            </PressableButton>
           );
         }}
-        keyExtractor={(item) => item.id}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -81,20 +94,14 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 0,
     height: 500,
     backgroundColor: Utilities.secondaryColor,
-  },
-  item: {
-    backgroundColor: Utilities.primaryColor,
-    padding: 10,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    width: "100%",
   },
   title: {
-    // fontSize: 32,
+    fontSize: 20,
+    color: Utilities.textColor,
   },
-  categoryBox: {
+  roundBorders: {
+    borderRadius: 5,
     backgroundColor: Utilities.textColor,
     padding: 10,
     marginVertical: 8,
@@ -103,5 +110,11 @@ const styles = StyleSheet.create({
   flexError: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  flexRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: 340,
   },
 });

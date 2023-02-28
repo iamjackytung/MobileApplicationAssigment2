@@ -24,16 +24,18 @@ export default function AddEntry({ navigation }) {
       !String(calories).match(/^(0|[1-9][0-9]*)$/) ||
       description.trim() == ""
     )
-      return inputAlert;
-    if (calories > 500) reviewed = false;
-    navigation.navigate("AllEntries", {
-      name: "AllEntries",
-    });
-    return writeToDB({
-      entry: description,
-      calories: calories,
-      reviewed: reviewed,
-    });
+      inputAlert();
+    else {
+      if (calories > 500) reviewed = false;
+      navigation.navigate("AllEntries", {
+        name: "AllEntries",
+      });
+      return writeToDB({
+        entry: description,
+        calories: calories,
+        reviewed: reviewed,
+      });
+    }
   };
 
   const onReset = () => {

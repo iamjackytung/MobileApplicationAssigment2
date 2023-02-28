@@ -10,9 +10,9 @@ import { firestore } from "./firebase-setup";
 export async function writeToDB(entry) {
   try {
     const docRef = await addDoc(collection(firestore, "entries"), entry);
-    console.log(docRef.id);
+    // console.log(docRef.id);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 }
 
@@ -20,7 +20,7 @@ export async function deleteFromDB(id) {
   try {
     await deleteDoc(doc(firestore, "entries", id));
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 }
 
@@ -29,8 +29,8 @@ export async function updateToDB(id) {
     const docRef = await updateDoc(doc(firestore, "entries", id), {
       reviewed: true,
     });
-    console.log(docRef.id);
+    // console.log(docRef.id);
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 }
